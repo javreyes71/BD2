@@ -178,4 +178,3 @@ GRANT ALL ON SCHEMA public TO public;
 | `03_consultas.sql` | 20 Consultas y Vistas |
 | `04_funciones.sql` | 40 Funciones + 18 CRUD + Cursor |
 | `05_triggers.sql` | 6 Triggers |
-| `generate_inserts.py` | Generador de datos coherentes |
