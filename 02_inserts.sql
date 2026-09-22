@@ -14084,3 +14084,27 @@ INSERT INTO Trata_Pregunta_Producto (id_pregunta, id_producto) VALUES
 ('PRG-999', 704),
 ('PRG-1000', 561);
 
+
+-- EXTRAS PARA ASEGURAR QUE LAS FUNCIONES DEVUELVAN DATOS
+UPDATE Resena SET comentario = 'Producto excelente, lo recomiendo' WHERE id_resena IN (1, 2);
+UPDATE Producto SET Atributos = '{"marca": "TestMarca"}' WHERE id_producto = 4;
+INSERT INTO Usuario (Rut, Nombre, Apellido, Correo, Contrasena, Fecha_nacimiento, es_cliente, es_emprendedor, Fecha_registro) VALUES ('12345678-5', 'Sin', 'Compras', 'sin.compras@mail.cl', 'hash', '1990-01-01', TRUE, FALSE, CURRENT_DATE);
+INSERT INTO Wishlist (id_wishlist, rut, id_producto, id_servicio, fecha_agregada) VALUES (9999, '12345678-5', 1, NULL, CURRENT_DATE);
+INSERT INTO Compra (id_compra, fecha_compra, moneda, modalidad_entrega, total_neto, total_iva, total_pagado, rut, id_medio_pago) VALUES (9991, CURRENT_DATE, 'CLP', 'Retiro', 10000, 1900, 11900, '10000001-6', 1);
+INSERT INTO Compra (id_compra, fecha_compra, moneda, modalidad_entrega, total_neto, total_iva, total_pagado, rut, id_medio_pago) VALUES (9992, CURRENT_DATE, 'CLP', 'Retiro', 10000, 1900, 11900, '10000001-6', 1);
+INSERT INTO Detalle_Compra (id_detalle_compra, cantidad, precio_vendido, id_compra, id_producto, id_servicio) VALUES (99911, 1, 5000, 9991, 1, NULL);
+INSERT INTO Detalle_Compra (id_detalle_compra, cantidad, precio_vendido, id_compra, id_producto, id_servicio) VALUES (99912, 1, 5000, 9991, 2, NULL);
+INSERT INTO Detalle_Compra (id_detalle_compra, cantidad, precio_vendido, id_compra, id_producto, id_servicio) VALUES (99921, 1, 5000, 9992, 1, NULL);
+INSERT INTO Detalle_Compra (id_detalle_compra, cantidad, precio_vendido, id_compra, id_producto, id_servicio) VALUES (99922, 1, 5000, 9992, 2, NULL);
+INSERT INTO Reembolso (id_reembolso, monto_reembolsado, metodo_reembolso, id_compra) VALUES (9991, 10000, 'Transferencia', 9991);
+INSERT INTO Devolucion (id_devolucion, fecha_solicitud, motivo, estado_devolucion, id_compra, rut, id_reembolso) VALUES (9991, CURRENT_DATE, 'Producto defectuoso', 'Aprobada', 9991, '10000001-6', 9991);
+UPDATE Producto SET id_oferta = 1 WHERE id_producto = 1;
+UPDATE Producto SET id_oferta = 2 WHERE id_producto = 2;
+UPDATE Empresa SET Pagina_web = NULL WHERE Rut IN (SELECT Rut FROM Empresa LIMIT 2);
+UPDATE Producto SET stock = 3 WHERE id_producto IN (1, 2);
+ALTER TABLE Usuario DISABLE TRIGGER trg_validar_correo;
+UPDATE Usuario SET Correo = 'correo_invalido.com' WHERE Rut = '10000001-6';
+ALTER TABLE Usuario ENABLE TRIGGER trg_validar_correo;
+
+INSERT INTO Empresa (id_empresa, Nombre, Pagina_web, Rut) VALUES ('EMP-1', 'Mi Empresa S.A.', NULL, '10000001-6');
+INSERT INTO Empresa (id_empresa, Nombre, Pagina_web, Rut) VALUES ('EMP-2', 'Tecnologias SpA', NULL, '10000002-6');
